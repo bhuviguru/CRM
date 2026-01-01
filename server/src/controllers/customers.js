@@ -414,3 +414,72 @@ exports.analyzeAllCustomers = async (req, res) => {
         });
     }
 };
+
+/**
+ * Get customer activity history
+ * @route GET /api/customers/:id/activity
+ */
+exports.getCustomerActivity = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // 1. Fetch Audit Logs
+        const auditQuery = `
+            SELECT 
+                'system' as type,
+                action as title,
+                changes,
+                created_at,
+                user_id
+            FROM audit_logs 
+            WHERE entity_id = $1 AND entity_type = 'customer'
+            ORDER BY created_at DESC
+            LIMIT 50
+        `;
+
+        // 2. Fetch Tasks
+        const taskQuery = `
+            SELECT 
+                'task' as type,
+                title,
+                status as changes, 
+                created_at,
+                'system' as user_id
+            FROM tasks
+            WHERE customer_id = $1
+            ORDER BY created_at DESC
+            LIMIT 50
+        `;
+
+        const [auditRes, taskRes] = await Promise.all([
+            pool.query(auditQuery, [id]),
+            pool.query(taskQuery, [id])
+        ]);
+
+        // Combine and Sort
+        const activities = [
+            ...auditRes.rows.map(row => ({
+                id: `audit-${row.created_at}`,
+                type: 'system',
+                title: row.title === 'updated' ? 'Customer Profile Updated' : `Customer ${row.title}`,
+                desc: row.title === 'updated' ? 'Updated properties' : 'System event',
+                timestamp: row.created_at,
+                icon: 'Settings'
+            })),
+            ...taskRes.rows.map(row => ({
+                id: `task-${row.created_at}`,
+                type: 'task',
+                title: row.title,
+                desc: `Status: ${row.changes || 'Open'}`,
+                timestamp: row.created_at,
+                icon: 'CheckSquare'
+            }))
+        ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        res.json(activities);
+
+    } catch (error) {
+        console.error('Error fetching customer activity:', error);
+        res.status(500).json({ error: 'Failed to fetch activity history' });
+    }
+};

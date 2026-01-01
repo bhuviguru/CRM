@@ -94,20 +94,37 @@ export default function DashboardPage() {
     }
   ]
 
-  const recentActivity: Activity[] = [
-    {
-      name: "Customer X",
-      desc: "High churn risk detected (78%)",
-      badge: "Criteria Met",
-      badgeColor: "text-rose-500"
-    },
-    {
-      name: "Customer Y",
-      desc: "Sentiment dropped to negative",
-      badge: "Warning",
-      badgeColor: "text-orange-500"
+  /* DYNAMIC ACTIVITY FETCHING */
+  const [recentActivity, setRecentActivity] = useState<Activity[]>([])
+
+  useEffect(() => {
+    const loadActivity = async () => {
+      try {
+        const activities = await dashboardApi.getRecentActivity()
+        setRecentActivity(activities)
+      } catch (err) {
+        console.error("Failed to load activities", err)
+      }
     }
-  ]
+    loadActivity()
+  }, [])
+
+  /*
+    const recentActivity: Activity[] = [
+      {
+        name: "Customer X",
+        desc: "High churn risk detected (78%)",
+        badge: "Criteria Met",
+        badgeColor: "text-rose-500"
+      },
+      {
+        name: "Customer Y",
+        desc: "Sentiment dropped to negative",
+        badge: "Warning",
+        badgeColor: "text-orange-500"
+      }
+    ]
+  */
 
   return (
     <div className="p-8">

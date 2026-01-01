@@ -10,6 +10,7 @@ router.get('/', authenticate, readLimiter, validatePagination, customerControlle
 router.post('/', authenticate, writeLimiter, validateCustomer, customerController.createCustomer);
 router.put('/:id', authenticate, writeLimiter, validateUUIDParam('id'), validateCustomer, customerController.updateCustomer);
 router.delete('/:id', authenticate, authorize('admin'), writeLimiter, validateUUIDParam('id'), customerController.deleteCustomer);
+router.get('/:id/activity', authenticate, validateUUIDParam('id'), customerController.getCustomerActivity);
 router.post('/analyze-all', authenticate, authorize('admin'), expensiveLimiter, customerController.analyzeAllCustomers);
 
 module.exports = router;

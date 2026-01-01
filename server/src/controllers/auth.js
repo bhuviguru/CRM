@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
     try {
         const { email, password, name } = req.body;
 
-        // SECURITY: Force role to 'user' - ignore any role sent by client
+        // Default role is 'user' unless specified (and you might want to restrict who can set 'admin')
         const role = 'user';
 
         // Validation

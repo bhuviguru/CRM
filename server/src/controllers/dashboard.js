@@ -47,3 +47,50 @@ exports.getChurnRisk = async (req, res) => {
         res.status(500).json({ error: 'Failed to load churn risk data' });
     }
 };
+
+exports.getRecentActivity = async (req, res) => {
+    try {
+        // Fetch latest 5 updates/creations
+        // We use updated_at to track activity
+        const query = `
+            SELECT 
+                account_name as name, 
+                health_score, 
+                status, 
+                updated_at,
+                (CASE 
+                    WHEN health_score < 50 THEN 'High churn risk detected'
+                    WHEN health_score < 70 THEN 'Health score dropped'
+                    WHEN status = 'Active' THEN 'Customer active'
+                    ELSE 'Status updated'
+                END) as "desc",
+                (CASE 
+                    WHEN health_score < 50 THEN 'Critical'
+                    WHEN health_score < 70 THEN 'Warning'
+                    ELSE 'Update'
+                END) as badge,
+                (CASE 
+                    WHEN health_score < 50 THEN 'text-rose-500'
+                    WHEN health_score < 70 THEN 'text-orange-500'
+                    ELSE 'text-blue-500'
+                END) as "badgeColor"
+            FROM customers 
+            ORDER BY updated_at DESC 
+            LIMIT 5
+        `;
+        const result = await pool.query(query);
+
+        // Format for frontend
+        const activities = result.rows.map(row => ({
+            name: row.name,
+            desc: `${row.desc} (${row.health_score}%)`,
+            badge: row.badge,
+            badgeColor: row.badgeColor
+        }));
+
+        res.json(activities);
+    } catch (error) {
+        console.error('Recent activity failed:', error);
+        res.status(500).json({ error: 'Failed to load recent activity' });
+    }
+};

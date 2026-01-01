@@ -213,6 +213,18 @@ export const customerApi = {
     },
 
     /**
+     * Get customer activity
+     */
+    getActivity: async (id: string): Promise<any[]> => {
+        try {
+            const response = await axiosInstance.get(`/customers/${id}/activity`);
+            return response.data;
+        } catch (error) {
+            return handleError(error);
+        }
+    },
+
+    /**
      * Trigger AI analysis for all customers
      */
     analyzeAll: async (): Promise<{ analyzed: number; failed: number }> => {
@@ -326,6 +338,18 @@ export const dashboardApi = {
     getChurnRisk: async (): Promise<{ name: string; churn: number }[]> => {
         try {
             const response = await axiosInstance.get('/dashboard/churn-risk');
+            return response.data;
+        } catch (error) {
+            return handleError(error);
+        }
+    },
+
+    /**
+     * Get recent activity
+     */
+    getRecentActivity: async (): Promise<{ name: string; desc: string; badge: string; badgeColor: string }[]> => {
+        try {
+            const response = await axiosInstance.get('/dashboard/recent-activity');
             return response.data;
         } catch (error) {
             return handleError(error);

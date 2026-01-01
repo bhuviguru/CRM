@@ -27,8 +27,12 @@ import { Customer } from "@/types"
 import { CallingOverlay } from "@/components/calling-overlay"
 import { api } from "@/services/api"
 
+import { CustomerDetailsSheet } from "@/components/customer-details-sheet"
+import { Eye } from "lucide-react"
+
 export default function CustomersPage() {
     const [customers, setCustomers] = useState<Customer[]>([])
+    const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -88,7 +92,16 @@ export default function CustomersPage() {
     const [isReanalyzing, setIsReanalyzing] = useState(false)
 
     const handleAddCustomer = async () => {
-        if (!newCustomer.name || !newCustomer.email) return
+        if (!newCustomer.name || !newCustomer.email) {
+            alert("Name and Email are required")
+            return
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(newCustomer.email)) {
+            alert("Please enter a valid email address (e.g. user@example.com)")
+            return
+        }
 
         setIsAnalyzing(true)
 
@@ -122,7 +135,7 @@ export default function CustomersPage() {
                 name: created.account_name,
                 email: created.email || 'N/A',
                 phone: created.phone || '',
-                status: created.status === 'at_risk' ? 'At Risk' : 'Active',
+                status: (created.status?.toLowerCase() === 'at_risk' || created.status === 'At Risk') ? 'At Risk' : 'Active',
                 tier: created.tier || 'Standard',
                 healthScore: created.health_score || healthScore,
                 mrr: created.mrr || 0,
@@ -197,7 +210,11 @@ export default function CustomersPage() {
                                     <Input
                                         id="name"
                                         value={newCustomer.name}
-                                        onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+                                        onChange={(e) => {
+                                            // Only allow alphabets and spaces
+                                            const validName = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                                            setNewCustomer({ ...newCustomer, name: validName });
+                                        }}
                                         placeholder="John Doe"
                                         className="col-span-3"
                                     />
@@ -217,7 +234,11 @@ export default function CustomersPage() {
                                     <Input
                                         id="phone"
                                         value={newCustomer.phone}
-                                        onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
+                                        onChange={(e) => {
+                                            // Only allow numbers and +
+                                            const validPhone = e.target.value.replace(/[^0-9+]/g, '');
+                                            setNewCustomer({ ...newCustomer, phone: validPhone });
+                                        }}
                                         placeholder="+1 234 567 8900"
                                         className="col-span-3"
                                     />
@@ -335,6 +356,14 @@ export default function CustomersPage() {
                                 <TableCell className="text-right">{customer.lastActive}</TableCell>
                                 <TableCell className="text-right">
                                     <div className="flex justify-end gap-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => setSelectedCustomer(customer)}
+                                            className="hover:bg-blue-50 hover:text-blue-600"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                        </Button>
                                         <Button variant="outline" size="icon" asChild>
                                             <a href={`mailto:${customer.email}`}>
                                                 <Mail className="h-4 w-4" />
@@ -359,6 +388,12 @@ export default function CustomersPage() {
                 onClose={() => setCallingCustomer(null)}
                 customerName={callingCustomer?.name || ""}
                 phoneNumber={callingCustomer?.phone || ""}
+            />
+
+            <CustomerDetailsSheet
+                customer={selectedCustomer}
+                isOpen={!!selectedCustomer}
+                onClose={() => setSelectedCustomer(null)}
             />
         </div>
     )

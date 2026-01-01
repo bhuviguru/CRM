@@ -8,5 +8,6 @@ router.use(authenticate);
 
 router.get('/stats', dashboardController.getStats);
 router.get('/churn-risk', dashboardController.getChurnRisk);
+router.get('/recent-activity', dashboardController.getRecentActivity);
 
 module.exports = router;

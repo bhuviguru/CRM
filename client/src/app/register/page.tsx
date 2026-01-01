@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { Activity } from 'lucide-react'
 
 export default function RegisterPage() {
     const [name, setName] = useState('')
@@ -78,11 +79,15 @@ export default function RegisterPage() {
                         Create Account
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Join SahayakCRM today
+                        Join Techverse CRM today
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="flex z-20 items-center text-lg font-medium">
+                            <Activity className="mr-2 h-6 w-6" />
+                            Techverse CRM
+                        </div>
                         <div className="space-y-2">
                             <Label htmlFor="name">Full Name</Label>
                             <Input

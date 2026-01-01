@@ -55,7 +55,7 @@ export function AppSidebar() {
                 <Link href="/" className="flex items-center pl-3 mb-14">
                     <Activity className="h-8 w-8 mr-4 text-emerald-500" />
                     <h1 className="text-2xl font-bold">
-                        Sahayak<span className="text-emerald-500">CRM</span>
+                        Techverse<span className="text-emerald-500">CRM</span>
                     </h1>
                 </Link>
                 <div className="space-y-1">

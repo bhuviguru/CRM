@@ -69,6 +69,7 @@ export function ChurnRiskChart() {
                                 axisLine={false}
                                 tickFormatter={(value) => `${value}%`}
                                 width={40}
+                                domain={[0, 100]}
                             />
                             <Tooltip
                                 cursor={{ fill: 'transparent' }}

@@ -155,16 +155,29 @@ const initTables = () => {
             )
         `);
 
-        // Notifications table
+            CREATE TABLE IF NOT EXISTS notifications(
+            id TEXT PRIMARY KEY,
+            user_id TEXT,
+            type TEXT,
+            title TEXT,
+            message TEXT,
+            link TEXT,
+            is_read INTEGER DEFAULT 0,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+            `);
+
+        // Audit Logs table
         db.exec(`
-            CREATE TABLE IF NOT EXISTS notifications (
-                id TEXT PRIMARY KEY,
+            CREATE TABLE IF NOT EXISTS audit_logs(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                entity_type TEXT NOT NULL,
+                entity_id TEXT NOT NULL,
+                action TEXT NOT NULL,
                 user_id TEXT,
-                type TEXT,
-                title TEXT,
-                message TEXT,
-                link TEXT,
-                is_read INTEGER DEFAULT 0,
+                changes TEXT,
+                ip_address TEXT,
+                user_agent TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             )
         `);
@@ -172,14 +185,14 @@ const initTables = () => {
         // --- SCHEMA MIGRATION: Auto-add missing columns ---
         const addColumnIfNotExists = (table, column, definition) => {
             try {
-                const columns = db.pragma(`table_info(${table})`);
+                const columns = db.pragma(`table_info(${ table })`);
                 const exists = columns.some(c => c.name === column);
                 if (!exists) {
-                    console.log(`🔧 Migrating: Adding ${column} to ${table}...`);
-                    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+                    console.log(`🔧 Migrating: Adding ${ column } to ${ table }...`);
+                    db.exec(`ALTER TABLE ${ table } ADD COLUMN ${ column } ${ definition } `);
                 }
             } catch (err) {
-                console.error(`❌ Migration failed for ${table}.${column}:`, err.message);
+                console.error(`❌ Migration failed for ${ table }.${ column }: `, err.message);
             }
         };
 

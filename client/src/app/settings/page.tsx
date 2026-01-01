@@ -4,13 +4,33 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Save } from "lucide-react"
 import { defaultUserSettings } from "@/lib/mock-data"
-
-import { useState } from "react"
+import { useAuth } from "@/contexts/AuthContext"
+import { useState, useEffect } from "react"
 import { Pencil, X } from "lucide-react"
 
 export default function SettingsPage() {
+    const { user } = useAuth()
     const [isEditing, setIsEditing] = useState(false)
-    const [data, setData] = useState(defaultUserSettings)
+
+    // Initialize with blank or real user data
+    const [data, setData] = useState({
+        name: user?.name || "",
+        email: user?.email || "",
+        ...defaultUserSettings, // Keep other defaults like notifications
+        // Override name/email if user exists, otherwise blank
+        ...(user ? { name: user.name, email: user.email } : { name: "", email: "" })
+    })
+
+    // Update state when user loads (if page loaded before auth)
+    useEffect(() => {
+        if (user) {
+            setData(prev => ({
+                ...prev,
+                name: user.name,
+                email: user.email
+            }))
+        }
+    }, [user])
 
     const handleSave = () => {
         setIsEditing(false)
@@ -19,7 +39,11 @@ export default function SettingsPage() {
 
     const handleCancel = () => {
         setIsEditing(false)
-        setData(defaultUserSettings)
+        if (user) {
+            setData(prev => ({ ...prev, name: user.name, email: user.email }))
+        } else {
+            setData(prev => ({ ...prev, name: "", email: "" }))
+        }
     }
     return (
         <div className="p-8">

@@ -8,7 +8,7 @@ import { AuthGuard } from "@/components/auth-guard"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "SahayakCRM | Intelligent Customer Retention",
+  title: "Techverse CRM | Intelligent Customer Retention",
   description: "Advanced AI-powered CRM for enterprise customer retention and churn analysis.",
 }
 

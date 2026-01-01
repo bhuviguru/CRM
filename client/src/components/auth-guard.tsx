@@ -43,7 +43,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
             <div className="h-screen w-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center gap-4">
                     <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
-                    <p className="text-gray-500 font-medium animate-pulse">Loading SahayakCRM...</p>
+                    <p className="text-gray-500 font-medium animate-pulse">Loading Techverse CRM...</p>
                 </div>
             </div>
         )
@@ -67,8 +67,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
             </div>
             <main className="md:pl-72 bg-gray-50 dark:bg-gray-900 min-h-screen">
                 {/* Header with Notification Bell */}
-                <div className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-6 py-3 flex items-center justify-between shadow-sm">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">SahayakCRM Pro</h2>
+                <div className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b dark:border-gray-700 px-6 py-3 flex items-center justify-end shadow-sm">
+
                     <div className="flex items-center gap-4">
                         <NotificationCenter />
                         <div className="flex items-center gap-3 border-l pl-4 ml-2">
