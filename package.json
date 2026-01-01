@@ -1,0 +1,16 @@
+{
+    "name": "sahayak-crm-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+        "dev:server": "cd server && npm run dev",
+        "dev:client": "cd client && npm run dev",
+        "db:init": "cd server && npm run db:init",
+        "docker:up": "docker-compose up --build",
+        "docker:down": "docker-compose down"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.0"
+    }
+}

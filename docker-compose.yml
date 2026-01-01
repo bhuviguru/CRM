@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: sahayak_db
+    environment:
+      POSTGRES_USER: sahayak_user
+      POSTGRES_PASSWORD: sahayak_password
+      POSTGRES_DB: sahayak_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sahayak_net
+
+  # Node.js Backend
+  server:
+    build: ./server
+    container_name: sahayak_server
+    depends_on:
+      - postgres
+      - ai-engine
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgres://sahayak_user:sahayak_password@postgres:5432/sahayak_db
+      AI_ENGINE_URL: http://ai-engine:8000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - sahayak_net
+    command: npm run dev
+
+  # Python AI Engine
+  ai-engine:
+    build: ./ai-engine
+    container_name: sahayak_ai
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ai-engine:/app
+    networks:
+      - sahayak_net
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Next.js Frontend
+  client:
+    build: ./client
+    container_name: sahayak_client
+    depends_on:
+      - server
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - sahayak_net
+
+volumes:
+  postgres_data:
+
+
+networks:
+  sahayak_net:
+    driver: bridge

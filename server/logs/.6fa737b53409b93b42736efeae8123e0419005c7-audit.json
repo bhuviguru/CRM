@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "C:\\Users\\bhuva\\Downloads\\IT\\server\\logs\\.6fa737b53409b93b42736efeae8123e0419005c7-audit.json",
+    "files": [
+        {
+            "date": 1767213164045,
+            "name": "C:\\Users\\bhuva\\Downloads\\IT\\server\\logs\\http-2026-01-01.log",
+            "hash": "e244b6f5bcb59e6ae5ef36d81a9f32113de596315ca51e9fd821b3a700a18296"
+        }
+    ],
+    "hashType": "sha256"
+}
