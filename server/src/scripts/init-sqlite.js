@@ -80,7 +80,7 @@ try {
     `
     ).run('admin-user-id', 'admin@sahayakcrm.com', hashedPassword, 'Admin User', 'admin');
     console.log('✅ Admin user created');
-} catch (err) {
+} catch (_err) {
     console.log('ℹ️  Admin user already exists');
 }
 
@@ -131,7 +131,7 @@ sampleCustomers.forEach(customer => {
             customer.health_score,
             customer.status
         );
-    } catch (err) {
+    } catch (_err) {
         // Ignore duplicates
     }
 });
@@ -170,7 +170,7 @@ sampleTasks.forEach(task => {
             VALUES (?, ?, ?, ?, ?)
         `
         ).run(task.id, task.customer_id, task.title, task.status, task.priority);
-    } catch (err) {
+    } catch (_err) {
         // Ignore duplicates
     }
 });

@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const { pool } = require('../db');
 const { auditLog } = require('../db/helpers');
 
@@ -95,9 +94,6 @@ exports.register = async (req, res) => {
         console.error('Registration error:', error);
 
         // Prevent leaking implementation details (like "cannot read property") to frontend
-        const errorMessage = error.code === '23505' // Unique violation
-            ? 'A user with this email already exists'
-            : 'Registration completed with warnings - please try logging in.';
 
         // If we crashed AFTER insert but BEFORE response, the user exists now.
         // It's safer to tell them to login.

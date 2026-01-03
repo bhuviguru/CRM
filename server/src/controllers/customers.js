@@ -121,25 +121,8 @@ exports.createCustomer = async (req, res) => {
             });
         }
 
-        // Generate sequential ID (cust-N)
-        // Find the highest existing cust-ID
-        const idResult = await pool.query(
-            `SELECT id FROM customers 
-             WHERE id LIKE 'cust-%' 
-             ORDER BY CAST(SUBSTR(id, 6) AS INTEGER) DESC 
-             LIMIT 1`
-        );
-
-        let nextId = 1;
-        if (idResult.rows.length > 0) {
-            const lastId = idResult.rows[0].id; // e.g., 'cust-3'
-            const numberPart = parseInt(lastId.replace('cust-', ''));
-            if (!isNaN(numberPart)) {
-                nextId = numberPart + 1;
-            }
-        }
-
-        const id = `cust-${nextId}`;
+        // Generate UUID
+        const id = require('crypto').randomUUID();
 
         const query = `
             INSERT INTO customers (
