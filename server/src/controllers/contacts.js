@@ -1,5 +1,5 @@
 const { pool } = require('../db');
-const { auditLog, softDelete } = require('../db/helpers');
+// const { auditLog, softDelete } = require('../db/helpers');
 
 /**
  * Get all contacts

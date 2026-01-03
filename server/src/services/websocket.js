@@ -152,8 +152,8 @@ const broadcastActivity = async (customerId, activity) => {
                 activity
             });
         }
-    } catch (err) {
-        console.error('Failed to send activity notification:', err);
+    } catch (_err) {
+        console.error('Failed to send activity notification:', _err);
     }
 };
 
@@ -174,8 +174,8 @@ const sendNotification = async (userId, notification) => {
         `,
             [userId, notification.type, notification.title, notification.message, notification.link]
         );
-    } catch (err) {
-        console.error('Failed to save notification:', err);
+    } catch (_err) {
+        console.error('Failed to save notification:', _err);
     }
 
     // Send via WebSocket
@@ -220,7 +220,7 @@ const sendChurnAlert = async (customer, prediction) => {
         for (const manager of managersResult.rows) {
             await sendNotification(manager.id, notification);
         }
-    } catch (err) {
+    } catch (_err) {
         // Users table might not exist yet
         console.log('⚠️ Users table not found, skipping manager notifications');
     }

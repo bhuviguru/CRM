@@ -1,5 +1,5 @@
 const { pool } = require('../db');
-const { auditLog } = require('../db/helpers');
+// const { auditLog } = require('../db/helpers');
 
 /**
  * Get all tasks with filters
@@ -174,7 +174,7 @@ exports.createTask = async (req, res) => {
  */
 exports.updateTask = async (req, res) => {
     const { id } = req.params;
-    const { status, assigned_to, priority, due_date, user_id } = req.body;
+    const { status, assigned_to, priority, due_date } = req.body;
 
     try {
         const updates = [];

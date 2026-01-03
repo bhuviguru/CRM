@@ -18,13 +18,17 @@ module.exports = [
                 setTimeout: 'readonly',
                 setInterval: 'readonly',
                 clearTimeout: 'readonly',
-                clearInterval: 'readonly'
+                clearInterval: 'readonly',
+                fetch: 'readonly'
             }
         },
         rules: {
             // Error Prevention
             'no-console': ['warn', { allow: ['warn', 'error', 'log'] }],
-            'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+            'no-unused-vars': ['error', {
+                argsIgnorePattern: '^_',
+                caughtErrorsIgnorePattern: '^_'
+            }],
             'no-undef': 'error',
 
             // Best Practices

@@ -6,7 +6,7 @@
  */
 
 const { pool } = require('../db');
-const { auditLog, softDelete, checkVersion } = require('../db/helpers');
+const { auditLog } = require('../db/helpers');
 
 // Constants
 const DEFAULT_PAGE = 1;
@@ -45,7 +45,7 @@ exports.getAllCustomers = async (req, res) => {
         // Build WHERE clause
         const conditions = ['deleted_at IS NULL'];
         const params = [];
-        const paramIndex = 1;
+        // const paramIndex = 1;
 
         if (req.query.status) {
             conditions.push(`status = ?`);

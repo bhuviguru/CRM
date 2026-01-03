@@ -16,7 +16,7 @@ try {
 }
 
 // Convert PostgreSQL query to SQLite
-function convertQuery(text, params) {
+function convertQuery(text, _params) {
     let query = text;
 
     // Replace $1, $2, etc. with ?
@@ -181,6 +181,72 @@ const initTables = () => {
                 ip_address TEXT,
                 user_agent TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        // Playbooks table
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS playbooks(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                description TEXT,
+                trigger TEXT, -- JSON
+                actions TEXT, -- JSON
+                enabled INTEGER DEFAULT 1,
+                priority INTEGER DEFAULT 0,
+                created_by TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                last_triggered_at TEXT,
+                execution_count INTEGER DEFAULT 0
+            )
+        `);
+
+        // Playbook Executions table
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS playbook_executions(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                playbook_id INTEGER,
+                customer_id TEXT,
+                status TEXT,
+                actions_executed TEXT, -- JSON
+                started_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                completed_at TEXT,
+                FOREIGN KEY (playbook_id) REFERENCES playbooks(id),
+                FOREIGN KEY (customer_id) REFERENCES customers(id)
+            )
+        `);
+
+        // Activity Logs table (distinct from audit_logs, seemingly used for customer activity feed)
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS activity_logs(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                customer_id TEXT,
+                activity_type TEXT,
+                title TEXT,
+                description TEXT,
+                performed_by TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (customer_id) REFERENCES customers(id)
+            )
+        `);
+
+        // AI Predictions table (used in analyzeAllCustomers)
+        db.exec(`
+            CREATE TABLE IF NOT EXISTS ai_predictions(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                customer_id TEXT,
+                prediction_type TEXT,
+                probability REAL,
+                confidence REAL,
+                risk_level TEXT,
+                model_name TEXT,
+                model_version TEXT,
+                input_features TEXT, -- JSON
+                explanation TEXT, -- JSON
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                expires_at TEXT,
+                FOREIGN KEY (customer_id) REFERENCES customers(id)
             )
         `);
 

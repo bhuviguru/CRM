@@ -90,7 +90,7 @@ describe('Customers API', () => {
                 .set('Authorization', `Bearer ${authToken}`)
                 .send({
                     mrr: 2000,
-                    status: 'At Risk'
+                    status: 'at_risk'
                 });
 
             expect(res.statusCode).toBe(200);

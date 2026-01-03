@@ -20,11 +20,11 @@ const isValidEmail = (email) => {
     // Strict email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!emailRegex.test(email)) return false;
+    if (!emailRegex.test(email)) {return false;}
 
     // Additional checks
-    if (email.includes('..')) return false;  // No consecutive dots
-    if (email.startsWith('.') || email.endsWith('.')) return false;
+    if (email.includes('..')) {return false;}  // No consecutive dots
+    if (email.startsWith('.') || email.endsWith('.')) {return false;}
 
     return true;
 };
@@ -36,9 +36,9 @@ const isValidName = (name) => {
     // Only letters, spaces, hyphens, and apostrophes
     const nameRegex = /^[a-zA-Z\s'-]+$/;
 
-    if (!nameRegex.test(name)) return false;
-    if (name.trim().length < 2) return false;  // Minimum 2 characters
-    if (name.trim().length > 255) return false;  // Maximum 255 characters
+    if (!nameRegex.test(name)) {return false;}
+    if (name.trim().length < 2) {return false;}  // Minimum 2 characters
+    if (name.trim().length > 255) {return false;}  // Maximum 255 characters
 
     return true;
 };
@@ -48,7 +48,7 @@ const isValidName = (name) => {
  */
 const isValidPhone = (phone) => {
     // Remove common separators for validation
-    const cleaned = phone.replace(/[\s\-\(\)\.]/g, '');
+    const cleaned = phone.replace(/[\s\-().]/g, '');
 
     // Must be digits only, 10-15 characters
     const phoneRegex = /^\+?[0-9]{10,15}$/;
@@ -61,7 +61,7 @@ const isValidPhone = (phone) => {
  */
 const isValidDate = (dateString) => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(dateString)) return false;
+    if (!dateRegex.test(dateString)) {return false;}
 
     const date = new Date(dateString);
     return date instanceof Date && !isNaN(date.getTime());
@@ -72,7 +72,7 @@ const isValidDate = (dateString) => {
  * Removes HTML tags, scripts, and dangerous characters
  */
 const sanitizeString = (str, maxLength = 1000) => {
-    if (typeof str !== 'string') return '';
+    if (typeof str !== 'string') {return '';}
 
     // Trim whitespace
     let sanitized = str.trim();
@@ -105,7 +105,7 @@ const sanitizeString = (str, maxLength = 1000) => {
  * Check if customer exists (FOREIGN KEY VALIDATION)
  */
 const customerExists = async (customer_id) => {
-    if (!customer_id) return true;  // Null is allowed
+    if (!customer_id) {return true;}  // Null is allowed
 
     try {
         const result = await pool.query(
@@ -123,7 +123,7 @@ const customerExists = async (customer_id) => {
  * Check if email is duplicate (DUPLICATE PREVENTION)
  */
 const emailIsDuplicate = async (email, excludeId = null) => {
-    if (!email) return false;
+    if (!email) {return false;}
 
     try {
         let query = 'SELECT id FROM customers WHERE email = ? AND deleted_at IS NULL';
@@ -150,19 +150,21 @@ exports.validateCustomer = async (req, res, next) => {
         const { account_name, email, phone, industry, tier, mrr, status, health_score } = req.body;
 
         // ===== REQUIRED FIELDS =====
-        if (!account_name || typeof account_name !== 'string' || account_name.trim().length === 0) {
-            return res.status(400).json({
-                success: false,
-                error: {
-                    code: 'INVALID_ACCOUNT_NAME',
-                    message: 'account_name is required and must be a non-empty string',
-                    field: 'account_name'
-                }
-            });
+        if (req.method === 'POST') {
+            if (!account_name || typeof account_name !== 'string' || account_name.trim().length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    error: {
+                        code: 'INVALID_ACCOUNT_NAME',
+                        message: 'account_name is required and must be a non-empty string',
+                        field: 'account_name'
+                    }
+                });
+            }
         }
 
         // ===== NAME VALIDATION (ALPHABET ONLY) =====
-        if (!isValidName(account_name)) {
+        if (account_name && !isValidName(account_name)) {
             return res.status(400).json({
                 success: false,
                 error: {
@@ -275,10 +277,10 @@ exports.validateCustomer = async (req, res, next) => {
         }
 
         // ===== SANITIZATION (XSS PREVENTION) =====
-        req.body.account_name = sanitizeString(account_name, 255);
-        if (email) req.body.email = sanitizeString(email, 255);
-        if (phone) req.body.phone = sanitizeString(phone, 50);
-        if (industry) req.body.industry = sanitizeString(industry, 100);
+        if (account_name) {req.body.account_name = sanitizeString(account_name, 255);}
+        if (email) {req.body.email = sanitizeString(email, 255);}
+        if (phone) {req.body.phone = sanitizeString(phone, 50);}
+        if (industry) {req.body.industry = sanitizeString(industry, 100);}
 
         next();
     } catch (error) {
@@ -409,7 +411,7 @@ exports.validateTask = async (req, res, next) => {
 
         // ===== SANITIZATION (XSS PREVENTION) =====
         req.body.title = sanitizeString(title, 255);
-        if (description) req.body.description = sanitizeString(description, 2000);
+        if (description) {req.body.description = sanitizeString(description, 2000);}
 
         next();
     } catch (error) {
@@ -504,9 +506,9 @@ exports.validateContact = async (req, res, next) => {
 
         // ===== SANITIZATION (XSS PREVENTION) =====
         req.body.name = sanitizeString(name, 255);
-        if (email) req.body.email = sanitizeString(email, 255);
-        if (phone) req.body.phone = sanitizeString(phone, 50);
-        if (title) req.body.title = sanitizeString(title, 100);
+        if (email) {req.body.email = sanitizeString(email, 255);}
+        if (phone) {req.body.phone = sanitizeString(phone, 50);}
+        if (title) {req.body.title = sanitizeString(title, 100);}
 
         next();
     } catch (error) {
