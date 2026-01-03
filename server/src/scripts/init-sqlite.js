@@ -28,6 +28,8 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS customers (
         id TEXT PRIMARY KEY,
         account_name TEXT NOT NULL,
+        email TEXT,
+        phone TEXT,
         industry TEXT,
         tier TEXT,
         mrr REAL,
@@ -72,6 +74,13 @@ db.exec(`
 
 // Insert admin user
 const hashedPassword = bcrypt.hashSync('admin123', 10);
+
+// Verify hash
+if (!bcrypt.compareSync('admin123', hashedPassword)) {
+    console.error('❌ FATAL: Generated hash does not match password!');
+    process.exit(1);
+}
+
 try {
     db.prepare(
         `
