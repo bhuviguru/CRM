@@ -1,7 +1,11 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 // Get API URL from environment variable
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_BASE_URL && typeof window !== 'undefined') {
+    console.warn('⚠️ NEXT_PUBLIC_API_URL is missing. API calls will fail.');
+}
 
 // Create axios instance with default config
 const axiosInstance = axios.create({
