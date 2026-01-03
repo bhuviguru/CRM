@@ -44,7 +44,7 @@ export default function LoginPage() {
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">
-                        SahayakCRM
+                        TechVerse CRM
                     </CardTitle>
                     <CardDescription className="text-center">
                         Sign in to your account
@@ -69,7 +69,6 @@ export default function LoginPage() {
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="••••••••"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 disabled={isLoading}

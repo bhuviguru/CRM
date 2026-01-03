@@ -155,6 +155,8 @@ const initTables = () => {
             )
         `);
 
+        // Notifications table
+        db.exec(`
             CREATE TABLE IF NOT EXISTS notifications(
             id TEXT PRIMARY KEY,
             user_id TEXT,
@@ -185,14 +187,14 @@ const initTables = () => {
         // --- SCHEMA MIGRATION: Auto-add missing columns ---
         const addColumnIfNotExists = (table, column, definition) => {
             try {
-                const columns = db.pragma(`table_info(${ table })`);
+                const columns = db.pragma(`table_info(${table})`);
                 const exists = columns.some(c => c.name === column);
                 if (!exists) {
-                    console.log(`🔧 Migrating: Adding ${ column } to ${ table }...`);
-                    db.exec(`ALTER TABLE ${ table } ADD COLUMN ${ column } ${ definition } `);
+                    console.log(`🔧 Migrating: Adding ${column} to ${table}...`);
+                    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition} `);
                 }
             } catch (err) {
-                console.error(`❌ Migration failed for ${ table }.${ column }: `, err.message);
+                console.error(`❌ Migration failed for ${table}.${column}: `, err.message);
             }
         };
 

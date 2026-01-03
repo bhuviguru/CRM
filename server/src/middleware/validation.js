@@ -299,9 +299,10 @@ exports.validateCustomer = async (req, res, next) => {
 exports.validateTask = async (req, res, next) => {
     try {
         const { customer_id, title, description, priority, due_date, status } = req.body;
+        const isUpdate = req.method === 'PUT' || req.method === 'PATCH';
 
-        // ===== REQUIRED FIELDS =====
-        if (!title || typeof title !== 'string' || title.trim().length === 0) {
+        // ===== REQUIRED FIELDS (POST Only) =====
+        if (!isUpdate && (!title || typeof title !== 'string' || title.trim().length === 0)) {
             return res.status(400).json({
                 success: false,
                 error: {
@@ -313,7 +314,7 @@ exports.validateTask = async (req, res, next) => {
         }
 
         // ===== MINIMUM LENGTH VALIDATION =====
-        if (title.trim().length < 3) {
+        if (title && title.trim().length < 3) {
             return res.status(400).json({
                 success: false,
                 error: {
