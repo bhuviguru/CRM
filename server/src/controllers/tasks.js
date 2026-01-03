@@ -215,6 +215,12 @@ exports.updateTask = async (req, res) => {
         `;
 
         values.push(id);
+
+        console.log('🔍 Update Task Debug:');
+        console.log('  Query:', query);
+        console.log('  Values:', values);
+        console.log('  Task ID:', id);
+
         await pool.query(query, values);
 
         const result = await pool.query('SELECT * FROM tasks WHERE id = ?', [id]);
@@ -225,7 +231,10 @@ exports.updateTask = async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (err) {
-        console.error('Update task error:', err);
+        console.error('❌ Update task error:', err);
+        console.error('  Error message:', err.message);
+        console.error('  Error code:', err.code);
+        console.error('  Error stack:', err.stack);
         res.status(500).json({ error: 'Failed to update task' });
     }
 };
