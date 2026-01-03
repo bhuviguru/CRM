@@ -269,6 +269,9 @@ const initTables = () => {
         addColumnIfNotExists('users', 'auth_provider', "TEXT DEFAULT 'local'");
         addColumnIfNotExists('users', 'profile_picture', 'TEXT');
 
+        // Ensure customers table has usage_metrics (for stable AI analysis)
+        addColumnIfNotExists('customers', 'usage_metrics', 'TEXT');
+
         console.log('✅ SQLite tables initialized and schema verified');
     } catch (error) {
         console.error('❌ Failed to initialize tables:', error);

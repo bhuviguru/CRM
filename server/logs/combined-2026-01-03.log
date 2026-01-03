@@ -532,3 +532,36 @@
 {"duration":"0ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":429,"timestamp":"2026-01-03 15:04:15","url":"/api/customers","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}
 {"duration":"0ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":429,"timestamp":"2026-01-03 15:04:29","url":"/api/customers","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}
 {"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":429,"timestamp":"2026-01-03 15:04:29","url":"/api/customers","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}
+{"level":"info","message":"Server initializing...","timestamp":"2026-01-03 17:45:54"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2026-01-03 17:45:54"}
+{"level":"info","message":"WebSocket enabled","timestamp":"2026-01-03 17:45:54"}
+{"level":"info","message":"Database connected","timestamp":"2026-01-03 17:45:54"}
+{"level":"info","message":"Rate limiting active","timestamp":"2026-01-03 17:45:54"}
+{"level":"info","message":"Production features enabled","timestamp":"2026-01-03 17:45:54"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":404,"timestamp":"2026-01-03 17:46:08","url":"/login","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":404,"timestamp":"2026-01-03 17:46:16","url":"/register","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"6ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/churn-risk","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/churn-risk","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/stats","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"3ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/recent-activity","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/stats","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/recent-activity","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/churn-risk","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/churn-risk","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/stats","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"1ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/recent-activity","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/stats","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"2ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"GET","status":401,"timestamp":"2026-01-03 18:19:01","url":"/api/dashboard/recent-activity","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"duration":"3ms","ip":"::1","level":"warn","message":"HTTP Request Warning","method":"POST","status":409,"timestamp":"2026-01-03 18:20:16","url":"/api/customers","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"}
+{"level":"info","message":"Server initializing...","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"WebSocket enabled","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"Database connected","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"Rate limiting active","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"Production features enabled","timestamp":"2026-01-03 18:36:47"}
+{"level":"info","message":"Server initializing...","timestamp":"2026-01-03 18:49:51"}
+{"level":"info","message":"Server running on port 5000","timestamp":"2026-01-03 18:49:51"}
+{"level":"info","message":"WebSocket enabled","timestamp":"2026-01-03 18:49:51"}
+{"level":"info","message":"Database connected","timestamp":"2026-01-03 18:49:51"}
+{"level":"info","message":"Rate limiting active","timestamp":"2026-01-03 18:49:51"}
+{"level":"info","message":"Production features enabled","timestamp":"2026-01-03 18:49:51"}

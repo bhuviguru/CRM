@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\bhuva\\Downloads\\First\\CRM\\server\\logs\\.29e5eee1cae90433642a0ae3a10dd5c3dc6de865-audit.json",
+    "files": [
+        {
+            "date": 1767440367059,
+            "name": "C:\\Users\\bhuva\\Downloads\\First\\CRM\\server\\logs\\error-2026-01-03.log",
+            "hash": "dd415b838a89c7facc2280c1fd0c7872758e4b94c74d52dfe5f1fb6703a69f04"
+        }
+    ],
+    "hashType": "sha256"
+}

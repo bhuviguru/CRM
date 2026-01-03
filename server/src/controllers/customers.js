@@ -323,19 +323,38 @@ exports.analyzeAllCustomers = async (req, res) => {
 
         for (const customer of customers) {
             try {
-                // Prepare usage data
-                const usageData = customer.usage_metrics || {
-                    support_tickets: Math.floor(Math.random() * 10),
-                    email_response_time: Math.random() * 48 + 1,
-                    usage_frequency: Math.random() * 50,
-                    contract_value: customer.mrr || Math.floor(Math.random() * 5000) + 100
-                };
+                // Prepare usage data (reuse existing or generate new)
+                let usageData = customer.usage_metrics;
+
+                // Parse if stored as string (SQLite)
+                if (typeof usageData === 'string') {
+                    try {
+                        usageData = JSON.parse(usageData);
+                    } catch (e) {
+                        usageData = null;
+                    }
+                }
+
+                if (!usageData) {
+                    usageData = {
+                        support_tickets: Math.floor(Math.random() * 10),
+                        email_response_time: Math.random() * 48 + 1,
+                        usage_frequency: Math.random() * 50,
+                        contract_value: customer.mrr || Math.floor(Math.random() * 5000) + 100
+                    };
+
+                    // Persist this generated data so future analysis is consistent
+                    await pool.query(
+                        `UPDATE customers SET usage_metrics = $1 WHERE id = $2`,
+                        [JSON.stringify(usageData), customer.id]
+                    );
+                }
 
                 const prediction = await aiService.getChurnPrediction(usageData);
                 const healthScore = Math.round((1 - prediction.churn_probability) * 100);
                 const status = prediction.risk_level === 'High' ? 'At Risk' : 'Active';
 
-                // Update customer
+                // Update customer (health, status, and ensure usage_metrics is set if it wasn't)
                 await pool.query(
                     `UPDATE customers 
                      SET health_score = $1, status = $2, version = version + 1, updated_at = CURRENT_TIMESTAMP
@@ -343,12 +362,16 @@ exports.analyzeAllCustomers = async (req, res) => {
                     [healthScore, status, customer.id]
                 );
 
+                // Calculate expiry time (24 hours from now)
+                const expiresAt = new Date();
+                expiresAt.setHours(expiresAt.getHours() + 24);
+
                 // Store prediction
                 await pool.query(
                     `INSERT INTO ai_predictions (
                         customer_id, prediction_type, probability, confidence, risk_level,
                         model_name, model_version, input_features, explanation, expires_at
-                    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, CURRENT_TIMESTAMP + INTERVAL '24 hours')`,
+                    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
                     [
                         customer.id,
                         'churn',
@@ -358,7 +381,8 @@ exports.analyzeAllCustomers = async (req, res) => {
                         'RandomForest',
                         '1.0',
                         JSON.stringify(usageData),
-                        JSON.stringify({ reasoning: 'AI-based churn prediction' })
+                        JSON.stringify({ reasoning: 'AI-based churn prediction' }),
+                        expiresAt.toISOString()
                     ]
                 );
 

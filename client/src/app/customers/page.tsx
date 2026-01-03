@@ -114,8 +114,17 @@ export default function CustomersPage() {
                 contract_value: newCustomer.contract_value
             }
 
-            const prediction = await api.ai.predictChurn(usageData)
-            const healthScore = Math.round((1 - prediction.churn_probability) * 100)
+            let riskLevel = 'active';
+            let healthScore = 50;
+
+            try {
+                const prediction = await api.ai.predictChurn(usageData)
+                healthScore = Math.round((1 - prediction.churn_probability) * 100)
+                riskLevel = prediction.risk_level === 'High' ? 'at_risk' : 'active'
+            } catch (aiError) {
+                console.warn("AI Prediction failed, using defaults:", aiError)
+                // Fallback defaults already set
+            }
 
             // 2. Save to backend database
             const created = await api.customer.create({
@@ -125,7 +134,7 @@ export default function CustomersPage() {
                 industry: 'Technology',
                 tier: 'Standard',
                 mrr: newCustomer.contract_value / 12,
-                status: prediction.risk_level === 'High' ? 'at_risk' : 'active',
+                status: riskLevel,
                 health_score: healthScore
             })
 
