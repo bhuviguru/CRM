@@ -40,6 +40,11 @@ services:
   ai-engine:
     build: ./ai-engine
     container_name: sahayak_ai
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=llama3.2
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8000:8000"
     volumes:
