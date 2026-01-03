@@ -1,10 +1,11 @@
 import requests
 import json
+import os
 
 class OllamaService:
-    def __init__(self, base_url="http://localhost:11434"):
-        self.base_url = base_url
-        self.model = "llama3.2"  # or "mistral", "phi3", etc.
+    def __init__(self, base_url=None):
+        self.base_url = base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+        self.model = os.getenv("OLLAMA_MODEL", "llama3.2")
     
     def generate(self, prompt, system_prompt=None):
         """Generate text using Ollama"""
