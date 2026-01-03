@@ -44,12 +44,13 @@ app.get('/', (req, res) => {
 app.get('/api/health', async (req, res) => {
     const { pool } = require('./db');
     try {
-        const dbRes = await pool.query('SELECT NOW()');
+        // Use SELECT 1 instead of SELECT NOW() for cross-DB compatibility (Postgres/SQLite)
+        await pool.query('SELECT 1');
         res.json({
             status: 'ok',
             service: 'backend',
             timestamp: new Date().toISOString(),
-            dbResponse: dbRes.rows[0].now,
+            // dbResponse: dbRes.rows[0].now,
             websocket: 'enabled',
             features: {
                 emailTemplates: true,

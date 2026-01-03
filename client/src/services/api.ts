@@ -17,7 +17,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         // Get token from localStorage
         if (typeof window !== 'undefined') {
-            const token = localStorage.getItem('auth_token');
+            const token = localStorage.getItem('token');
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
             if (status === 401) {
                 // Unauthorized - clear token and redirect to login
                 if (typeof window !== 'undefined') {
-                    localStorage.removeItem('auth_token');
+                    localStorage.removeItem('token');
                     window.location.href = '/login';
                 }
             } else if (status === 403) {
@@ -386,11 +386,15 @@ export const authApi = {
             const response = await axiosInstance.post('/auth/login', { email, password });
 
             // Store token
-            if (typeof window !== 'undefined' && response.data.data?.token) {
-                localStorage.setItem('auth_token', response.data.data.token);
+            // Backend returns { success: true, token: "...", user: {...} }
+            // So we access response.data.token directly
+            const token = response.data.token || response.data.data?.token;
+
+            if (typeof window !== 'undefined' && token) {
+                localStorage.setItem('token', token);
             }
 
-            return response.data.data;
+            return response.data;
         } catch (error) {
             return handleError(error);
         }
@@ -405,7 +409,7 @@ export const authApi = {
         } finally {
             // Always clear token
             if (typeof window !== 'undefined') {
-                localStorage.removeItem('auth_token');
+                localStorage.removeItem('token');
             }
         }
     },
