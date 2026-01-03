@@ -2,7 +2,7 @@ const { pool } = require('../db');
 const {
     broadcastCustomerUpdate,
     broadcastActivity,
-    sendChurnAlert,
+    // sendChurnAlert,
     triggerZapierWebhook
 } = require('../services/websocket');
 
@@ -81,7 +81,7 @@ const executePlaybook = async (playbook, customer) => {
 /**
  * Execute individual action
  */
-const executeAction = async (action, customer, playbook) => {
+const executeAction = async (action, customer, _playbook) => {
     switch (action.type) {
         case 'create_task':
             await createTaskAction(action, customer);
@@ -110,7 +110,7 @@ const executeAction = async (action, customer, playbook) => {
  * Create task action
  */
 const createTaskAction = async (action, customer) => {
-    const taskController = require('../controllers/tasks');
+    // const taskController = require('../controllers/tasks');
 
     await pool.query(
         `
@@ -160,10 +160,11 @@ const sendEmailAction = async (action, customer) => {
 /**
  * Send Slack action
  */
-const sendSlackAction = async (action, customer) => {
-    const { sendSlackAlert } = require('../services/websocket');
+const sendSlackAction = async (action, _customer) => {
+    // const { sendSlackAlert } = require('../services/websocket');
 
     // Send custom Slack message
+    // console.log(`💬 Slack message sent: ${action.config.message}`); // Optional: keep log but unused var is the issue
     console.log(`💬 Slack message sent: ${action.config.message}`);
 };
 

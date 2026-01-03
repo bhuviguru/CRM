@@ -14,11 +14,9 @@ export default function SettingsPage() {
 
     // Initialize with blank or real user data
     const [data, setData] = useState({
-        name: user?.name || "",
-        email: user?.email || "",
         ...defaultUserSettings, // Keep other defaults like notifications
-        // Override name/email if user exists, otherwise blank
-        ...(user ? { name: user.name, email: user.email } : { name: "", email: "" })
+        name: user?.name || "",
+        email: user?.email || ""
     })
 
     // Update state when user loads (if page loaded before auth)
